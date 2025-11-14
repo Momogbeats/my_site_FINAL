@@ -160,20 +160,44 @@
 
 
 
-/* Галерея 4 картинок (фиксировано) */
+
+/* Галерея: блоки идут вертикально один под другим */
 .gallery {
-  display: flex;                   /* кладём картинки в одну строку */
-  gap: var(--space-4);             /* расстояние между картинками = 16px */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-8);   /* отступ от текста сверху (32px) */
 }
-.gallery img { /* для любой картинки внутри gallery*/
-  /* считаем ширину 4-х картинок:
-     берём 100% ширины контейнера,
-     вычитаем 3 промежутка между картинками (3 * 16px),
-     и делим на 4 → каждая картинка занимает ровно четверть оставшегося места */
-  width: calc((100% - 3 * var(--space-4)) / 4);
-  border-radius: 8px;              /* немного скругляем, чтобы не были "голыми" прямоугольниками */
-  border: 1px solid var(--border); /* тонкая рамка — в едином стиле сайта */
+
+/* Карточка галереи: фон как у card, побольше воздуха */
+.gallery-block {
+  background: var(--card);             /* мягкий песочный фон, как у карточек */
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: var(--space-6);             /* побольше внутренний отступ */
+  overflow: hidden;                    /* чтобы float-картинка не вываливалась */
 }
+
+/* Заголовок внутри карточки */
+.gallery-title {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: var(--space-2); /* небольшой отступ от заголовка до первого абзаца */
+}
+
+/* Квадратная иллюстрация одного размера, всегда справа */
+.illustration {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  display: block;
+
+  float: right;                                /* картинка справа */
+  margin: var(--space-2) 0 var(--space-4) var(--space-4);
+}
+
 
 /* FOOTER */
 .site-footer {
@@ -182,46 +206,4 @@
   color: var(--muted);                 /* делаем текст менее ярким — футер же второстепенный */
   font-size: 14px;                     /* размер шрифта поменьше, чем основной текст (он у нас 16px) */
 }
-
-
-/* Адаптив для шапки, карточек и галереи */
-@media (max-width: 768px) {
-
-  /* Шапка: логотип сверху, меню под ним */
-  .site-header__bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-3);          /* расстояние между логотипом и меню */
-  }
-
-  .nav__list {
-    gap: var(--space-3);
-    flex-wrap: wrap;              /* если не влезает в строку, пункты переносятся */
-  }
-
-  /* Карточки (и на главной, и в "Заданиях", и в "Курсовой") — в колонку */
-  .row {
-    flex-direction: column;
-    gap: var(--space-4);          /* расстояние между карточками */
-  }
-
-  .card {
-    flex: 1 1 auto;               /* нормальное поведение в колонке */
-  }
-
-  /* Галерея: карточки по-прежнему вертикально, но картинка — сверху, текст под ней */
-  .gallery-block {
-    padding: var(--space-4);
-  }
-
-  .illustration {
-    float: none;                  /* убираем обтекание на очень узких экранах */
-    display: block;
-    margin: 0 auto var(--space-3);/* центрируем картинку, отступ снизу */
-    width: 100%;
-    max-width: 240px;             /* чтобы не была слишком огромной */
-    height: auto;                 /* сохраняем пропорции */
-  }
-}
-
 
