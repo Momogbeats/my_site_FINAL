@@ -210,39 +210,48 @@
 /* Адаптив для шапки, карточек и галереи */
 @media (max-width: 768px) {
 
-  /* Шапка: логотип сверху, меню под ним */
+  /* Шапка */
   .site-header__bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-3);          /* расстояние между логотипом и меню */
+    gap: var(--space-3);
   }
 
   .nav__list {
     gap: var(--space-3);
-    flex-wrap: wrap;              /* если не влезает в строку, пункты переносятся */
+    flex-wrap: wrap;
   }
 
-  /* Карточки (и на главной, и в "Заданиях", и в "Курсовой") — в колонку */
+  /* Карточки в колонку */
   .row {
     flex-direction: column;
-    gap: var(--space-4);          /* расстояние между карточками */
+    gap: var(--space-4);
   }
 
   .card {
-    flex: 1 1 auto;               /* нормальное поведение в колонке */
+    flex: 1 1 auto;
   }
 
-  /* Галерея: карточки по-прежнему вертикально, но картинка — сверху, текст под ней */
+  /* ГАЛЕРЕЯ: каждый блок на всю ширину, картинка сверху, НЕ в ряд */
+  .gallery {
+    display: block;                 /* убираем flex, чтобы точно не вставали в ряд */
+  }
+
   .gallery-block {
+    margin-bottom: var(--space-6);
     padding: var(--space-4);
   }
 
   .illustration {
-    float: none;                  /* убираем обтекание на очень узких экранах */
+    float: none;                    /* убираем обтекание */
     display: block;
-    margin: 0 auto var(--space-3);/* центрируем картинку, отступ снизу */
-    width: 100%;
-    max-width: 240px;             /* чтобы не была слишком огромной */
-    height: auto;                 /* сохраняем пропорции */
+    margin: 0 auto var(--space-3);  /* по центру, отступ снизу */
+    width: 100%;                    /* растягиваем по ширине карточки */
+    max-width: 320px;               /* но не бесконечно шире */
+    height: auto;                   /* сохранение пропорций, НЕ крошечная */
+  }
+
+  .gallery-title {
+    text-align: left;
   }
 }
