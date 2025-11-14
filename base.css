@@ -94,4 +94,43 @@ body{
   flex-direction: column;                 /* шапка → контент → футер по вертикали */
 }
 main{ flex: 1; }                          /* тянем основной контент, футер вниз */
+
 .site-header, .site-footer{ flex-shrink: 0; } /* не даём им сжиматься */
+
+/* Адаптив: экраны до ~768px (планшеты и телефоны) */
+@media (max-width: 768px) {
+
+  /* Чуть уменьшаем заголовки, чтобы не орали на весь экран */
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 17px;
+  }
+
+  /* Герой-блок становится чуть компактнее */
+  .hero {
+    padding: var(--space-6) 0;
+  }
+
+  .hero__text {
+    max-width: 100%; /* текст во всю ширину контейнера */
+  }
+
+  /* Кнопки в hero одна под другой, на всю ширину */
+  .hero .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero .btn + .btn {
+    margin-left: 0 !important;      /* перебиваем inline-style 12px */
+    margin-top: var(--space-3);     /* промежуток между кнопками по вертикали */
+  }
+}
