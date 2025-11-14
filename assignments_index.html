@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Пиксель в Порядке — Задания</title>
+  <!-- Мобильная вёрстка: ширина равна ширине экрана, масштаб 1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Короткое описание раздела для сниппетов поисковиков -->
+  <meta name="description" content="Раздел с учебными заданиями.">
+  <!-- База стилей (сбросы, контейнер, типографика и т.п.) -->
+  <link rel="stylesheet" href="base.css">
+  <!-- Компонентные стили (карточки, кнопки, хедер и пр.) -->
+  <link rel="stylesheet" href="components.css">
+</head>
+<body>
+
+  <!-- Шапка сайта: логотип + главное меню -->
+<header class="site-header">
+  <div class="container site-header__bar">
+    <!-- Лого-ссылка на главную. Сам лого. -->
+    <a href="index.html" aria-label="На главную"><span class="logo" aria-hidden="true"></span></a>
+    
+    <!-- Основная навигация по разделам сайта -->
+    <nav aria-label="Главное меню">
+      <ul class="nav__list">
+        <!-- Пункт меню на главную -->
+        <li><a class="nav__link" href="index.html">Главная</a></li>
+        <!-- Текущая страница помечена aria-current -->
+        <li><a class="nav__link" href="assignments_index.html" aria-current="page">Задания</a></li>
+        <!-- Ссылка на «Курсовая» -->
+        <li><a class="nav__link" href="coursework_index.html">Курсовая</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Основной контент раздела -->
+<main>
+  <!-- Секция со списком заданий -->
+  <section class="section">
+    <div class="container">
+       <!-- Главный заголовок раздела -->
+      <h1>Задания</h1>
+       <!-- Вводный подзаголовок/пояснение. text-muted — с «приглушить» текст -->
+      <p class="text-muted">Здесь будут публиковаться задачии ссылки на решение задач.</p>
+
+      <!-- Сетка карточек заданий; mt-6 — отступ сверху -->
+      <div class="row mt-6">
+
+        <!-- Карточка-задание как кликабельная ссылка целиком -->
+         <!-- Первая карточка -->
+        <a class="card card--soft" href="work/work1/work1.html">
+          <!-- Заголовок карточки -->
+          <h3>Рисунок CSS</h3>
+          <!-- Короткое описание задания -->
+          <p class="mt-6">Создать рисунки, с помощью стилевой таблицы pic.css. Базовый размер 200х200px.</p>
+        </a>
+
+        <!-- Вторая карточка -->
+        <a class="card" href="work/work2/work2.html">
+          <h3>Flexbox-ролик</h3>
+          <p class="mt-6">Создать компонент анимированного ролика с базовым размером 200х200 px. Без использования JS.</p>
+        </a>
+
+        <!-- Третья карточка -->
+        <a class="card card--sand" href="work/work3/work3.html">
+          <h3>Аудиторная работа. Основы кода JS</h3>
+          <p class="mt-6">Пользователь может выбрать одну  из 3х формул, ввести переменные и получить свой результат.</p>
+        </a>
+</div>
+
+    </div>
+  </section>
+</main>
+
+<!-- Подвал: служебная подпись -->
+<footer class="site-footer">
+  <div class="container">
+    © 2025 Учебный сайт. Раздел «Задания».
+  </div>
+</footer>
+
+</body>
+</html>

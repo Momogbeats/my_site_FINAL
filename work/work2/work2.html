@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Пиксель в Порядке — Задание 2 (Заяц и магнитофон)</title>
+
+  <!-- общие стили проекта из корня -->
+  <link rel="stylesheet" href="../../base.css">
+  <link rel="stylesheet" href="../../components.css">
+
+  <!-- стили задания (лежат рядом) -->
+  <link rel="stylesheet" href="pic2.css">
+
+  <!-- маленькие правки под общий стиль сайта -->
+  <style>
+    /* если случайно не уберёшь фон из pic2.css — принудительно вернём палитру сайта */
+    html, body { background: var(--bg); color: var(--text); }
+
+    /* чуть компактнее отступы вокруг демо */
+    .wrap { margin-top: var(--space-6); }
+    .hint { color: var(--muted); max-width: 680px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a href="../../index.html" aria-label="На главную"><span class="logo" aria-hidden="true"></span></a>
+    <nav aria-label="Главное меню">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../../index.html">Главная</a></li>
+        <li><a class="nav__link" href="../../assignments_index.html" aria-current="page">Задания</a></li>
+        <li><a class="nav__link" href="../../coursework_index.html">Курсовая</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h1>Задание 2: «Заяц и магнитофон» (CSS-анимация)</h1>
+      <p class="mt-6">Наведи мышь на сцену — заяц кивнёт и появится подпись. Наведи на магнитофон — закрутятся катушки. Удерживай клик — появится движущийся объект.</p>
+
+      <!-- ДЕМО -->
+      <div class="wrap">
+        <figure class="scene" aria-label="Заяц и магнитофон" tabindex="0">
+          <!-- хит-зона магнитофона -->
+          <div class="deck" aria-hidden="true"></div>
+
+          <!-- подписи -->
+          <figcaption class="label active">Ура! Играет!</figcaption>
+          <figcaption class="label hover">что-то новенькое</figcaption>
+
+          <!-- корпус и катушки -->
+          <img class="layer mag" src="mag2.png" alt="Магнитофон">
+          <img class="layer reel left"  src="mag1.png" alt="Катушка левая">
+          <img class="layer reel right" src="mag1.png" alt="Катушка правая">
+
+          <!-- заяц -->
+          <img class="layer bunny-body" src="rabbit1.png" alt="Тело зайца">
+          <img class="layer head main"   src="rabbit2.png" alt="Голова зайца">
+          <img class="layer head alt"    src="rabbit3.png" alt="Голова зайца — эмоция">
+
+          <!-- объект по «восьмёрке» при зажатии -->
+          <div class="dot" aria-hidden="true"></div>
+        </figure>
+      </div>
+
+      <p class="mt-6"><a class="btn" href="../../assignments_index.html">← Назад к списку заданий</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">© 2025 Пиксель в Порядке</div>
+</footer>
+</body>
+</html>

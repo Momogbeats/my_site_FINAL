@@ -1,0 +1,504 @@
+/* === Контейнер аквариума === */
+#aquarium {
+  position: relative;            /* все внутренние элементы с absolute будут позиционироваться относительно этого контейнера */
+  border-width: 1px;             /* толщина рамки: 1px */
+  border-style: solid;           /* рамка будет сплошная (solid line) */
+  border-color: black;           /* цвет рамки — чёрный */
+  width: 200px;                  /* ширина аквариума в пикселях */
+  height: 200px;                 /* высота аквариума */
+  overflow: hidden;              /* всё, что выходит за границы (например трава снизу), будет обрезано */
+  /* transform: scale(1.5); увеличить в 1.5 раза */
+  /* transform-origin: top left; /* откуда масштабируем (по умолчанию из центра) */
+  
+}
+
+/* === Дно аквариума === */
+#seabed {
+  position: absolute;            /* позиционирую относительно #aquarium */
+  left: 0;                       /* прижимаю к левой границе */
+  right: 0;                      /* прижимаю к правой границе */
+  bottom: 0;                     /* прижимаю к нижней границе */
+  height: 48px;                  /* высота зоны дна */
+}
+
+/* песок: чередующиеся прямоугольники */
+#sand {
+  position: absolute;
+  inset: 0; /* прижимаем по всем направлениям на 0: left:0; right:0; top:0; bottom:0; */
+  /* Рисую полосатый фон: повторяющиеся вертикальные полоски */
+  background: repeating-linear-gradient(
+    90deg, /* направление полос */
+    hsl(34, 100%, 59%) 0 12px,  /* тёмная полоса */ 
+    #e8eb3b 12px 24px /* светлая полоса */
+  );
+  z-index: 2;   /* песок — перекрывает низ травы */
+}
+
+
+/* камни на песке */
+#pebbles {
+  position: absolute;
+  bottom: 0;     /* прижимаю к низу */
+  left: 0;       /* начинаю с самого левого края */
+  right: 0;      /* протягиваю до правого края */
+  height: 16px;  /* высота камней */
+  z-index: 3;    /* самый верх — камни должны быть поверх всего дна */
+}
+
+/* первый камень */
+#pebbles::before {
+  content: "";                   /*создаём псевдоэлемент, чтобы потом его клонировать*/
+  position: absolute;
+  bottom: 0;                     /* прижимаю к нижнему краю */
+  left: 0;                       /* ставлю первый камень в самое начало */
+  width: 24px;                   /* ширина одного камня */
+  height: 12px;                  /* высота камня — чуть меньше высоты области */
+  background: #6b4a1f;         /* цвет камня: тёмно-коричневый */
+  border-radius: 50% / 60%;      /* скругление: превращает прямоугольник в эллипс (камушек) */
+  
+  
+  /* рисую остальные камни повторением через box-shadow */
+  box-shadow: 
+  25px 0 0 #6b4a1f,
+  50px 0 0 #6b4a1f,
+  75px 0 0 #6b4a1f,
+  100px 0 0 #6b4a1f,
+  125px 0 0 #6b4a1f,
+  150px 0 0 #6b4a1f,
+  175px 0 0 #6b4a1f,
+  200px 0 0 #6b4a1f;
+
+}
+
+/* === Трава ===
+   Три стебля нарисованы через границы эллипсов (border). */
+#plant_left, #plant_center, #plant_right {
+  position: absolute;
+  z-index: 1;                    /* трава под рыбой, но над фоном */
+  border-radius: 50%;            /* нужен круг/эллипс, чтобы нарисовать дугу */
+}
+
+/* Левая трава: активна только левая граница — зелёная дуга */
+#plant_left {
+  top: 10px;                     /* отступ сверху */
+  left: 22px;                    /* смещение слева */
+  width: 100px; height: 190px;   /* размеры «эллипса» */
+  border-left: 6px solid #39d34a;/* цвет и толщина стебля */
+  border-bottom: none; border-top: none; border-right: none; /* только левая дуга, не рисуем рамку справа сверху и мнизу */
+  transform: rotate(10deg);      /* небольшой наклон */
+}
+
+/* Центральная трава */
+#plant_center {
+  top: 19px; left: 77px;         /* чуть правее и выше */
+  width: 120px; height: 210px;   /* побольше размеров */
+  border-left: 6px solid #39d34a;
+  border-bottom: none; border-top: none; border-right: none;
+  transform: rotate(10deg);
+}
+
+/* Правая трава: зеркально, использую правую границу */
+#plant_right {
+  top: 19px; right: 15px;        /* привязываю справа */
+  width: 120px; height: 210px;
+  border-right: 6px solid #39d34a;/* теперь правая дуга */
+  border-bottom: none; border-top: none; border-left: none;
+  transform: rotate(-10deg)
+}
+
+
+/* Контейнер для левой рыбки */
+#fish_left {
+  position: absolute;          /* фиксирую рыбку внутри аквариума */
+  top: 70px;                   /* смещаю от верхнего края аквариума на 70px вниз */
+  left: -20px;                 /* слегка «выезжает» за левую рамку (-20px) */
+  width: 100px;                /* ширина всей рыбки */
+  height: 50px;                /* высота всей рыбки */
+  transform: scale(0.8) rotate(-10deg);
+  /* scale(0.8) — немного уменьшаю рыбку
+     rotate(-10deg) — поворачиваю против часовой стрелки */
+  z-index: 3;                  /* эта рыбка должна быть поверх травы */
+}
+
+/* Тело рыбки */
+#fish_left_body {
+  position: absolute;
+  left: 30px;                  /* сдвигаю тело внутри контейнера вправо */
+  width: 70px; height: 50px;   /* вытянутое по горизонтали тело */
+  background: #deb949;         /* золотисто-жёлтый цвет — «окраска» */
+  border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
+  /* хитрый border-radius формирует «картошку» — заострённые концы по бокам */
+  z-index: 3;                  /* тело над хвостом */
+}
+
+/* Хвост */
+#fish_left_tail {
+  position: absolute;
+  left: 22px;                  /* хвост прячу под тело, немного смещаю */
+  top: 14px;                   /* вертикальное выравнивание */
+  width: 24px; height: 20px;   /* компактный хвостик */
+  background: #deb949;         /* тот же цвет, что и тело */
+  clip-path: polygon(0 0, 100% 35%, 100% 65%, 0 100%);
+  /* clip-path вырезает форму «трапеции» (шире снаружи, уже у тела) */
+  z-index: 0;                  /* хвост под телом */
+}
+
+/* Глаз */
+#fish_left_eye {
+  position: absolute;
+  left: 78px; top: 14px;       /* глаз ближе к «морде» рыбки */
+  width: 12px; height: 12px;   /* круглый глаз */
+  background: white;           /* белый цвет глазного яблока */
+  border-radius: 50%;          /* делаю его круглым */
+  z-index: 4;                  /* глаз поверх тела */
+}
+
+/* Зрачок */
+#fish_left_pupil {
+  position: absolute;
+  left: 81px; top: 17px;       /* маленький кружок внутри глаза */
+  width: 6px; height: 6px;
+  background: black;           /* чёрный цвет */
+  border-radius: 50%;          /* круг */
+  z-index: 5;                  /* выше глаза */
+}
+
+/* Узор 1 — большая розовая дуга на теле */
+#fish_left_pattern1 {
+  position: absolute;
+  left: 61px; top: 1px;        /* располагаю ближе к голове */
+  width: 61px; height: 43px;   /* эллипс, закрывающий почти всё тело */
+  border-left: 7px solid #ff1ea8;
+  /* рисую только левую границу — ярко-розовый цвет */
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;    /* превращаю блок в эллипс */
+  transform: rotate(-10deg);   /* слегка наклоняю */
+  z-index: 3;                  /* поверх тела */
+}
+
+/* Узор 2 — маленькая розовая дуга ближе к голове */
+#fish_left_pattern2 {
+  position: absolute;
+  left: 50px; top: 2px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(7deg);     /* поворачиваю чуть по часовой */
+  z-index: 3;
+}
+
+/* Узор 3 */
+#fish_left_pattern3 {
+  position: absolute;
+  left: 50px; top: 17px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(-3deg);
+  z-index: 3;
+}
+
+/* Узор 4 */
+#fish_left_pattern4 {
+  position: absolute;
+  left: 51px; top: 32px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(-10deg);
+  z-index: 3;
+}
+
+/*создаём маленькую рыбку путём копирования левой*/
+#fish_small {
+  transform: scaleX(-1);
+}
+
+#fish_small {
+  transform: scaleX(-1) scale(0.3);
+}
+
+/* Маленькая рыбка — копия левой, только отражённая и уменьшенная */
+#fish_small {
+  position: absolute;
+  top: 110px; left: 170px;      /* ставлю ближе к правой стенке и выше */
+  transform: scaleX(-1) scale(0.6);
+  /* scaleX(-1) — зеркальное отражение по горизонтали
+     scale(0.6) — уменьшение размера */
+  transform-origin: center;     /* чтобы отражение было относительно центра */
+  z-index: 2;                   /* эта рыбка перед травой, но под песком */
+}
+
+/* Тело рыбки */
+#fish_small_body {
+  position: absolute;
+  left: 30px;                  /* сдвигаю тело внутри контейнера вправо */
+  width: 70px; height: 50px;   /* вытянутое по горизонтали тело */
+  background: #deb949;         /* золотисто-жёлтый цвет — «окраска» */
+  border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
+  /* хитрый border-radius формирует «картошку» — заострённые концы по бокам */
+  z-index: 3;                  /* тело над хвостом */
+}
+
+/* Хвост */
+#fish_small_tail {
+  position: absolute;
+  left: 22px;                  /* хвост прячу под тело, немного смещаю */
+  top: 14px;                   /* вертикальное выравнивание */
+  width: 24px; height: 20px;   /* компактный хвостик */
+  background: #deb949;         /* тот же цвет, что и тело */
+  clip-path: polygon(0 0, 100% 35%, 100% 65%, 0 100%);
+  /* clip-path вырезает форму «трапеции» (шире снаружи, уже у тела) */
+  z-index: 0;                  /* хвост под телом */
+}
+
+/* Глаз */
+#fish_small_eye {
+  position: absolute;
+  left: 78px; top: 14px;       /* глаз ближе к «морде» рыбки */
+  width: 12px; height: 12px;   /* круглый глаз */
+  background: white;           /* белый цвет глазного яблока */
+  border-radius: 50%;          /* делаю его круглым */
+  z-index: 4;                  /* глаз поверх тела */
+}
+
+/* Зрачок */
+#fish_small_pupil {
+  position: absolute;
+  left: 81px; top: 17px;       /* маленький кружок внутри глаза */
+  width: 6px; height: 6px;
+  background: black;           /* чёрный цвет */
+  border-radius: 50%;          /* круг */
+  z-index: 5;                  /* выше глаза */
+}
+
+/* Узор 1 — большая розовая дуга на теле */
+#fish_small_pattern1 {
+  position: absolute;
+  left: 61px; top: 1px;        /* располагаю ближе к голове */
+  width: 61px; height: 43px;   /* эллипс, закрывающий почти всё тело */
+  border-left: 7px solid #ff1ea8;
+  /* рисую только левую границу — ярко-розовый цвет */
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;    /* превращаю блок в эллипс */
+  transform: rotate(-10deg);   /* слегка наклоняю */
+  z-index: 3;                  /* поверх тела */
+}
+
+/* Узор 2 — маленькая розовая дуга ближе к голове */
+#fish_small_pattern2 {
+  position: absolute;
+  left: 50px; top: 2px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(7deg);     /* поворачиваю чуть по часовой */
+  z-index: 3;
+}
+
+/* Узор 3 */
+#fish_small_pattern3 {
+  position: absolute;
+  left: 50px; top: 17px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(-3deg);
+  z-index: 3;
+}
+
+/* Узор 4 */
+#fish_small_pattern4 {
+  position: absolute;
+  left: 51px; top: 32px;
+  width: 15px; height: 16px;
+  border-left: 3px solid #ff1ea8;
+  border-top: none; border-right: none; border-bottom: none;
+  border-radius: 50% / 60%;
+  transform: rotate(-10deg);
+  z-index: 3;
+}
+
+/*создаём правую рыбку путём копирования маленькой*/
+#fish_right {
+  transform: scaleX(-1);
+}
+
+
+
+/* Правая рыбка — тоже копия, но побольше, чем маленькая,
+   и сильнее повернута */
+#fish_right {
+  position: absolute;
+  top: 90px; left: 240px;        /* ставлю выше и правее */
+  transform: scaleX(-1) scale(0.9) rotate(-25deg);
+  /* scaleX(-1) — отражение
+     scale(0.9) — размер чуть меньше исходной
+     rotate(-25deg) — сильный наклон против часовой */
+  transform-origin: center;
+  z-index: 1;                    /* правая рыбка уходит за траву */
+}
+
+/* тело */
+#fish_right_body {
+  position: absolute;
+  left: 30px;
+  width: 70px; height: 50px;
+  background: #deb949;
+  border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
+  /* это создаёт вытянутую форму с острее по бокам */
+  z-index: 3;
+}
+
+/* хвост — узкий у тела, шире к краю */
+#fish_right_tail {
+  position: absolute;
+  left: 22px;      /* прижал к телу; подгони при желании */
+  top: 14px;
+  width: 24px;
+  height: 20px;
+  background: #deb949;
+  /* узко у правого края (у тела), широко слева */
+  clip-path: polygon(0 0, 100% 35%, 100% 65%, 0 100%);
+  z-index: 0;
+}
+
+
+
+#fish_right_eye {
+  position: absolute;
+  left: 78px;   /* было right: 10px */
+  top: 14px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  z-index: 4;
+}
+
+/* зрачок — тоже через left */
+#fish_right_pupil {
+  position: absolute;
+  left: 81px;   /* было right: 13px */
+  top: 17px;
+  width: 6px;
+  height: 6px;
+  background: black;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* первый узор — розовый полукруг у головы, открыт вправо (как "(") */
+#fish_right_pattern1 {
+  position: absolute;
+  /* ставлю у головы, можно подправить числами */
+  left: 61px;   /* ближе к глазу */
+  top: 1px;
+
+  /* делаю сплюснутый эллипс, чтобы шёл почти по всей рыбке */
+  width: 61px;
+  height: 43px;
+
+  /* рисую только одну дугу — левую */
+  border-left: 7px solid #ff1ea8; /* розовый */
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 50% / 60%;
+
+  /* лёгкий наклон в ту же сторону, что и рыбка */
+  transform: rotate(-10deg);
+
+  z-index: 3; /* поверх тела */
+}
+
+
+/* второй узор — розовый полукруг у головы, открыт вправо (как "(") */
+#fish_right_pattern2 {
+  position: absolute;
+  /* ставлю у головы, можно подправить числами */
+  left: 50px;   /* ближе к глазу */
+  top: 2px;
+
+  /* делаю сплюснутый эллипс, чтобы шёл почти по всей рыбке */
+  width: 15px;
+  height: 16px;
+
+  /* рисую только одну дугу — левую */
+  border-left: 3px solid #ff1ea8; /* розовый */
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 50% / 60%;
+
+  /* лёгкий наклон в ту же сторону, что и рыбка */
+  transform: rotate(7deg);
+
+  z-index: 3; /* поверх тела */
+}
+
+/* третий узор — розовый полукруг у головы, открыт вправо (как "(") */
+#fish_right_pattern3 {
+  position: absolute;
+  /* ставлю у головы, можно подправить числами */
+  left: 50px;   /* ближе к глазу */
+  top: 17px;
+
+  /* делаю сплюснутый эллипс, чтобы шёл почти по всей рыбке */
+  width: 15px;
+  height: 16px;
+
+  /* рисую только одну дугу — левую */
+  border-left: 3px solid #ff1ea8; /* розовый */
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 50% / 60%;
+
+  /* лёгкий наклон в ту же сторону, что и рыбка */
+  transform: rotate(-3deg);
+
+  z-index: 3; /* поверх тела */
+}
+
+/* четвертый узор — розовый полукруг у головы, открыт вправо (как "(") */
+#fish_right_pattern4 {
+  position: absolute;
+  /* ставлю у головы, можно подправить числами */
+  left: 51px;   /* ближе к глазу */
+  top: 32px;
+
+  /* делаю сплюснутый эллипс, чтобы шёл почти по всей рыбке */
+  width: 15px;
+  height: 16px;
+
+  /* рисую только одну дугу — левую */
+  border-left: 3px solid #ff1ea8; /* розовый */
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 50% / 60%;
+
+  /* лёгкий наклон в ту же сторону, что и рыбка */
+  transform: rotate(-10deg);
+
+  z-index: 3; /* поверх тела */
+}
+
+/* трава — над правой рыбой, но под песком */
+#plant_left, #plant_center, #plant_right { z-index: 2; }
+
+/* правая рыбка — за травой */
+#fish_right { z-index: 1; }
+
+/* левая и маленькая — перед травой */
+#fish_left, #fish_small { z-index: 3; }
+
+/* дно поверх всего зелёного */
+#sand { z-index: 4; }
+#pebbles { z-index: 5; }

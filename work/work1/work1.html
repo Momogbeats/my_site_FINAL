@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Пиксель в Порядке — Задание 1 (HTML/CSS)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- стили проекта (лежат в корне) -->
+  <link rel="stylesheet" href="../../base.css">
+  <link rel="stylesheet" href="../../components.css">
+
+  <!-- стили задания №1 (лежат рядом) -->
+  <link rel="stylesheet" href="pic.css">
+
+  <style>
+    /* локальное: центрируем демо */
+    .demo-figure { width: 220px; margin: var(--space-6) auto; }
+    .demo-figure figcaption { text-align: center; color: var(--muted); margin-top: 10px; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container site-header__bar">
+    <!-- из work/work1 → на главную -->
+    <a href="../../index.html" aria-label="На главную"><span class="logo" aria-hidden="true"></span></a>
+    <nav aria-label="Главное меню">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../../index.html">Главная</a></li>
+        <li><a class="nav__link" href="../../assignments_index.html" aria-current="page">Задания</a></li>
+        <li><a class="nav__link" href="../../coursework_index.html">Курсовая</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h1>Задание 1: HTML/CSS — «Аквариум»</h1>
+      <p class="mt-6">
+        Ниже — рисунок аквариума, целиком собранный на HTML+CSS (без изображений).
+        В коде использованы позиционирование, границы, скругления, clip-path и псевдо-элементы.
+      </p>
+
+      <figure class="demo-figure">
+        <div id="aquarium">
+          <div id="plant_left"></div>
+          <div id="plant_center"></div>
+          <div id="plant_right"></div>
+
+          <div id="fish_left">
+            <div id="fish_left_body"></div>
+            <div id="fish_left_tail"></div>
+            <div id="fish_left_eye"></div>
+            <div id="fish_left_pupil"></div>
+            <div id="fish_left_pattern1"></div>
+            <div id="fish_left_pattern2"></div>
+            <div id="fish_left_pattern3"></div>
+            <div id="fish_left_pattern4"></div>
+          </div>
+
+          <div id="fish_right">
+            <div id="fish_right_body"></div>
+            <div id="fish_right_tail"></div>
+            <div id="fish_right_eye"></div>
+            <div id="fish_right_pupil"></div>
+            <div id="fish_right_pattern1"></div>
+            <div id="fish_right_pattern2"></div>
+            <div id="fish_right_pattern3"></div>
+            <div id="fish_right_pattern4"></div>
+          </div>
+
+          <div id="fish_small">
+            <div id="fish_small_body"></div>
+            <div id="fish_small_tail"></div>
+            <div id="fish_small_eye"></div>
+            <div id="fish_small_pupil"></div>
+            <div id="fish_small_pattern1"></div>
+            <div id="fish_small_pattern2"></div>
+            <div id="fish_small_pattern3"></div>
+            <div id="fish_small_pattern4"></div>
+          </div>
+
+          <div id="seabed">
+            <div id="sand"></div>
+            <div id="pebbles"></div>
+          </div>
+        </div>
+        <figcaption>Рыбы не спорят о погоде — для них всегда «мокро».</figcaption>
+      </figure>
+
+      <p class="mt-6">
+        <a class="btn" href="../../assignments_index.html">← Назад к списку заданий</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">© 2025 Пиксель в Порядке</div>
+</footer>
+</body>
+</html>

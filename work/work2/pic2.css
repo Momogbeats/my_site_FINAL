@@ -1,0 +1,195 @@
+/* ====== БАЗА ====== */
+:root {
+  --card-w: 200px;      /* базовая ширина моей сцены */
+  --radius: 18px;       /* скругление углов */
+  --ink: #1f2937;       /* основной цвет текста */
+  --accent: #ff7a59;    /* акцентный цвет — использую для шарика */
+}
+
+html, body {
+  height: 100%;                         /* фон тянется на всю высоту экрана */
+  margin: 0;                            /* убрал стандартные отступы браузера */
+  color: var(--ink);                    /* цвет текста из переменной */
+  background: linear-gradient(180deg,   /* мягкий градиент на фоне */
+    #f7fafc, 
+    #f2f7ff
+  );
+}
+
+.wrap {
+  display: flex;              /* общий контейнер — flex */
+  align-items: flex-start;    /* все сцены прижаты к верху */
+  justify-content: center;    /* расположены по центру экрана */
+  gap: 16px;                  /* зазор между ними */
+  padding: 16px;              /* внутренние отступы */
+  flex-wrap: wrap;            /* если не влезают — переносятся */
+}
+
+
+/* ====== КАРТОЧКА-СЦЕНА ====== */
+.scene {
+  position: relative;                     /* все слои внутри будут позиционироваться относительно этой сцены */
+  width: min(100%, var(--card-w));        /* ширина сцены — не больше 200px */
+  aspect-ratio: 1 / 1;                    /* квадрат (ширина = высота) */
+  border-radius: var(--radius);           /* скругленные углы */
+  background: #cfd8c1;                    /* серо-зелёный фон */
+  border: 2px solid #b9b9b9;              /* серая рамка */
+  overflow: hidden;                       /* чтобы ничего не вылезало за края */
+  transition: transform .25s ease;        /* плавные изменения масштаба */
+  display: flex;                          /* делаю flex, чтобы удобно было работать с содержимым */
+  align-items: center;
+  justify-content: center;
+  outline: none;                          /* убрал стандартную обводку */
+  flex: 0 0 var(--card-w);               /* flex-поведение: может сжиматься и расширяться */
+}
+.scene:focus-visible { 
+  box-shadow: 0 0 0 3px #99c0ff inset;    /* подсветка при фокусе */
+}
+.scene:active { 
+  transform: scale(1.02);                 /* при нажатии сцена слегка увеличивается */
+}
+
+
+/* ====== СЛОИ (общая настройка) ====== */
+.layer { 
+  position: absolute;                     /* все картинки абсолютно позиционирую */
+  user-select: none;                      /* запрет выделения текста/картинок */
+  -webkit-user-drag: none;                /* запрет перетаскивания в браузере */
+}
+
+
+/* === МАГНИТОФОН === */
+.mag  {
+  left: 7%; bottom: 6%;                   /* позиция внизу слева */
+  width: 26%;                             /* размер корпуса */
+  z-index: 1;                             /* находится позади зайца */
+}
+
+/* Хит-зона для наведения на магнитофон */
+.deck {
+  position: absolute;
+  left: 7%; bottom: 6%;
+  width: 26%; height: 18%;                /* размер зоны наведения */
+  cursor: pointer;                        /* курсор в виде руки */
+  z-index: 10;                            /* выше всего, чтобы ловить hover */
+}
+
+/* === КАТУШКИ === */
+.reel {
+  width: 20%; bottom: 20%; left: 20%;     /* положение и размер катушки */
+  transform-origin: 50% 50%;              /* точка вращения по центру */
+  pointer-events: none;                   /* мышь их не "чувствует" */
+  z-index: 6;
+}
+.reel.right { left: 0%; }                 /* правая катушка */
+
+
+ /* === ЗАЯЦ === */
+.bunny-body { 
+  right: 2%; bottom: 0%; width: 72%;      /* тело зайца внизу справа */
+}
+
+.head {
+  right: 0%; bottom: -2%; width: 76%;     /* голова чуть больше */
+  transform-origin: 50% 90%;              /* точка вращения у шеи */
+}
+.head.alt { 
+  opacity: 0;                             /* скрыта до наведения */
+  right: 1%; bottom: -3%; 
+}
+
+/* Кивание при hover */
+.scene:hover .head {
+  animation: nod 1s ease-in-out infinite; /* анимация повтора */
+  will-change: transform;
+}
+.scene:hover .head.main { opacity: 0; }   /* обычная голова исчезает */
+.scene:hover .head.alt  { opacity: 1; }   /* появляется анимированная */
+
+/* сама анимация головы */
+@keyframes nod {
+  0%, 100% { transform: rotate(-3deg) translateY(0); } 
+  50%      { transform: rotate(6deg) translateY(1%); } 
+}
+
+
+/* === АНИМАЦИИ КАТУШЕК === */
+.scene .reel { animation: none; }         /* изначально не вращаются */
+
+/* левая катушка по часовой */
+.scene .deck:hover ~ .reel.left {
+  animation: spin-cw .7s linear infinite;
+}
+
+/* правая катушка против часовой */
+.scene .deck:hover ~ .reel.right {
+  animation: spin-ccw .7s linear infinite;
+}
+
+@keyframes spin-cw { to { transform: rotate(360deg); } }
+@keyframes spin-ccw { to { transform: rotate(-360deg); } }
+
+
+/* === ТЕКСТОВЫЕ ПОДПИСИ === */
+.label {
+  position: absolute;
+  pointer-events: none; 
+  z-index: 20;
+  font-weight: 700; 
+  color: #3b556d; 
+  opacity: 0;                             /* по умолчанию скрыт */
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* Первая надпись — сверху по центру */
+.label.hover {
+  top: 3%; left: 50%;
+  transform: translateX(-50%) scale(.98);
+  font-size: 18px;
+  white-space: nowrap;                    /* всегда в одну строку */
+  background: transparent;                /* без подложки */
+}
+.scene:hover .label.hover { opacity: 1; transform: translateX(-50%) scale(1); }
+
+/* Вторая надпись — над магнитофоном, под углом */
+.label.active {
+  top: 46%; left: 28%;
+  transform: translate(-50%,-50%) rotate(-22deg) scale(.98);
+  font-size: 18px;
+}
+
+/* Когда наводим на магнитофон — первая скрывается, вторая появляется */
+.scene .deck:hover ~ .label.hover  { opacity: 0; }
+.scene .deck:hover ~ .label.active { opacity: 1; transform: translate(-50%,-50%) rotate(-22deg) scale(1); }
+
+
+/* === ПРИМИТИВНЫЙ ОБЪЕКТ (ШАРИК) === */
+.dot {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;                      /* круг */
+  background: rgb(255, 140, 0);            /* оранжевый цвет */
+  opacity: 0;                              /* скрыт пока не нажали */
+}
+
+/* появляется и начинает двигаться только при нажатии */
+.scene:active .dot {
+  opacity: 1;
+  left: 40px; top: 140px;                  /* стартовая позиция */
+  offset-path: path('M 0 0 C 59.4 -59.4  59.4 59.4  0 0  C -59.4 -59.4  -59.4 59.4  0 0'); /* траектория — восьмёрка */
+  offset-rotate: 0deg;
+  animation: along 2s linear infinite;     /* движение по траектории */
+}
+
+@keyframes along {
+  to { offset-distance: 100%; }            /* проходит всю траекторию */
+}
+
+
+/* === СЛОИ ПО ГЛУБИНЕ === */
+.mag, .reel { z-index: 1; }                /* магнитофон с катушками сзади */
+.bunny-body, .head { z-index: 2; }         /* заяц сверху */
+.deck, .dot { z-index: 3; }                /* зона наведения и шарик — выше всех */
+
+
+

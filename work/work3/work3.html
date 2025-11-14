@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Пиксель в Порядке — Задание 3 (Формулы)</title>
+
+  <!-- общие стили проекта из корня -->
+  <link rel="stylesheet" href="../../base.css">
+  <link rel="stylesheet" href="../../components.css">
+
+  <!-- Локальные стили: НИКАКОГО FLEX и НИКАКОГО растягивания изображений -->
+  <style>
+    /* никаких flex и растягиваний — это наш отдельный дизайн результата */
+#work3 #results .result-card{
+  display: block !important;                /* гасим глобальный flex */
+  border: 1px solid var(--card-border);
+  background:var(--card-soft, #f7efe3);
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 16px;
+}
+
+/* картинкам запрещаем width:100% из глобальных стилей */
+#work3 #results .result-card img{
+  width: auto !important;
+  max-width: none !important;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* формула слева фиксированного размера */
+#work3 #results .result-card img.formula{ height: 54px; }
+
+/* текст результата — на одной строке справа от формулы */
+#work3 #results .result-card p{
+  display: inline-block;
+  margin: 0 0 0 12px;
+  vertical-align: middle;
+  font-size: 1.125rem;
+}
+
+/* смайлик — ниже отдельной строкой и маленький */
+#work3 #results .result-card img.smile{
+  display: block;     /* перенос на новую строку */
+  height: 32px;       /* при желании */
+  margin-top: 8px;
+}
+
+/* финальная карточка */
+#work3 #results .result-end{
+  border-style: dashed;
+  font-weight: 600;
+  text-align: center;
+}
+
+  </style>
+</head>
+<body id="work3">
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a href="../../index.html" aria-label="На главную"><span class="logo" aria-hidden="true"></span></a>
+    <nav aria-label="Главное меню">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../../index.html">Главная</a></li>
+        <li><a class="nav__link" href="../../assignments_index.html" aria-current="page">Задания</a></li>
+        <li><a class="nav__link" href="../../coursework_index.html">Курсовая</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h1>Задание 3: Формулы</h1>
+
+      <div class="controls">
+        <label for="formula">Выберите формулу:</label>
+        <select id="formula">
+          <option value="1">Формула 1</option>
+          <option value="2">Формула 2</option>
+          <option value="3">Формула 3</option>
+        </select>
+        <button id="go" class="btn" disabled>Посчитать</button>
+      </div>
+
+      <div id="results"></div>
+
+      <p class="mt-6"><a class="btn" href="../../assignments_index.html">← Назад к списку заданий</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">© 2025 Пиксель в Порядке</div>
+</footer>
+
+<!-- логика рядом с этим файлом -->
+<script src="script.js" defer></script>
+</body>
+</html>
